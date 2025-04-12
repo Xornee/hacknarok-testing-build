@@ -26,18 +26,18 @@ jobs:
 
       # Step 2: Set up the Godot Engine environment on the runner
       - name: Set up Godot environment
-        # Keep using v2 or update to a newer major version if desired/stable
         uses: chickensoft-games/setup-godot@v2
         with:
-          # --- CORRECTED INPUTS ---
-          # Use 'version' instead of 'godot-version'
-          # !!! MAKE SURE '4.4' IS YOUR EXACT GODOT VERSION !!!
-          # (Add '.mono' if needed, e.g., '4.2.1.mono')
-          version: '4.4.1.mono' # <-- Replace '4.4' if that's not your exact version!
+          # --- Correct: Plain version number for standard Godot ---
+          version: '4.4.1' # <-- Ensure this matches your GDScript Godot version
 
-          # Use 'cache: true' instead of 'cache-godot: true' and 'cache-templates: true'
-          # This single 'cache' option likely handles caching for both in v2
+          # --- REMOVED: Do NOT use dotnet for GDScript ---
+          # use-dotnet: true <-- REMOVE THIS LINE
+
+          # Keep caching and template inclusion enabled
           cache: true
+          include-templates: true # Still good to explicitly request templates
+
       # Step 3: Verify/Install iOS Export Templates (Often handled by setup-godot cache, but good practice)
       # The setup-godot action with cache-templates usually handles this.
       # If builds fail related to templates, you might need manual download steps here.
