@@ -1,0 +1,65 @@
+# Godot 4+ specific ignores
+.godot/
+!.godot/icon.svg # Keep the project icon if you use the default location
+
+# Godot 3 specific ignores (if applicable, doesn't hurt to have)
+.import/
+
+# Builds and Export artifacts
+# Binaries for different platforms
+*.exe
+*.apk
+*.aab
+*.dmg
+*.app/
+*.ipa
+*.release.zip
+*.debug.zip
+*.pck
+*.wasm
+*.xap
+
+# iOS / macOS specific build artifacts (CRITICAL FOR YOUR ERROR)
+*.xcarchive/
+*.xcodeproj/
+*.xcworkspace/
+*.xcframework/  # This will ignore the folder causing the error
+
+# General build output directories (common names)
+build/
+bin/
+export/
+dist/
+target/
+
+# Rider/VSCode specific files (optional)
+.idea/
+.vscode/
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.sln.docstates
+
+# Visual Studio / Mono specific files (optional)
+*.csproj.user
+*_Data*/Managed/
+*_Data*/Plugins/
+*_Data*/Resources/
+*_Data*/StreamingAssets/
+ExportedObj/
+Properties/
+Temp/
+Library/
+Logs/
+UserSettings/
+obj/
+
+# OS-specific temporary files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
