@@ -1,0 +1,77 @@
+# Name of the workflow as it will appear in the GitHub Actions tab
+name: Build Godot iOS App
+
+# --- When the workflow should run ---
+on:
+  # Run automatically when code is pushed to the 'main' branch
+  push:
+    branches: [ main ] # CHANGE 'main' if your default branch is different (e.g., 'master')
+
+  # Allow running this workflow manually from the Actions tab on GitHub
+  workflow_dispatch:
+
+# --- Define the jobs to run ---
+jobs:
+  # Define a job named 'build-ios'
+  build-ios:
+    # Specify that this job needs to run on a macOS virtual machine
+    # GitHub provides these runners. 'macos-latest' uses the newest available version.
+    runs-on: macos-latest
+
+    # --- Define the sequence of steps within the job ---
+    steps:
+      # Step 1: Check out your repository code onto the macOS runner
+      - name: Checkout repository code
+        uses: actions/checkout@v4 # Uses a standard GitHub Action to get your code
+
+      # Step 2: Set up the Godot Engine environment on the runner
+      - name: Set up Godot environment
+        uses: chickensoft-games/setup-godot@v2 # Uses a community action to install Godot
+        with:
+          # !!! --- VERY IMPORTANT --- !!!
+          # Replace '4.2.1' with the EXACT version of Godot you are using!
+          # Examples: '4.1.3', '3.5.2'
+          # Specify '.mono' if using the C#/.NET version (e.g., '4.2.1.mono')
+          godot-version: '4.4'
+
+          # Optional: Cache Godot install and templates for faster subsequent runs
+          cache-godot: true
+          cache-templates: true # This action attempts to cache export templates
+
+      # Step 3: Verify/Install iOS Export Templates (Often handled by setup-godot cache, but good practice)
+      # The setup-godot action with cache-templates usually handles this.
+      # If builds fail related to templates, you might need manual download steps here.
+      - name: Verify/Install iOS Export Templates
+        run: |
+          echo "Attempting to ensure iOS templates are available..."
+          # Run a dummy export command; setup-godot often ensures templates exist before this
+          # Or Godot might download them if missing and caching failed.
+          godot --version # Simple command to ensure Godot is working
+          # Optional check if needed: godot --headless --export-release "iOS" --quit -v # Run verbose to see template status
+          echo "iOS templates should be ready."
+
+      # Step 4: Create a directory to store the build output
+      - name: Create build directory
+        run: mkdir -p build/ # The '-p' flag prevents errors if the directory already exists
+
+      # Step 5: Export the Godot project to an unsigned iOS .ipa file
+      # This command runs Godot without the editor (headless) and tells it to export
+      - name: Export Godot project for iOS
+        run: |
+          echo "Starting iOS export..."
+          # Run Godot in headless mode, perform a release export using the "iOS" preset
+          # configured in your export_presets.cfg, and output the file to 'build/YourGameName.ipa'.
+          # Make sure "iOS" matches the name of your export preset in Godot exactly.
+          # Replace 'YourGameName.ipa' with the desired name for your output file.
+          godot --headless --export-release "iOS" ./build/YourGameName.ipa
+          echo "Export finished."
+
+      # Step 6: Upload the generated .ipa file as a build artifact
+      # This makes the .ipa file downloadable from the GitHub Actions run page.
+      - name: Upload iOS Build Artifact
+        uses: actions/upload-artifact@v4 # Uses a standard GitHub Action for uploading
+        with:
+          # The name that the downloadable artifact zip file will have
+          name: ios-build-unsigned
+          # The path to the file(s) you want to upload
+          path: build/YourGameName.ipa
