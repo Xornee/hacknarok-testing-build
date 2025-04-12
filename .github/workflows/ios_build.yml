@@ -33,7 +33,7 @@ jobs:
           # Use 'version' instead of 'godot-version'
           # !!! MAKE SURE '4.4' IS YOUR EXACT GODOT VERSION !!!
           # (Add '.mono' if needed, e.g., '4.2.1.mono')
-          version: '4.4' # <-- Replace '4.4' if that's not your exact version!
+          version: '4.4.1.stable' # <-- Replace '4.4' if that's not your exact version!
 
           # Use 'cache: true' instead of 'cache-godot: true' and 'cache-templates: true'
           # This single 'cache' option likely handles caching for both in v2
