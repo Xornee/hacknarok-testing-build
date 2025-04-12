@@ -35,20 +35,8 @@ jobs:
           # use-dotnet: true <-- REMOVE THIS LINE
 
           # Keep caching and template inclusion enabled
-          cache: true
+          cache: false
           include-templates: true # Still good to explicitly request templates
-
-      # Step 3: Verify/Install iOS Export Templates (Often handled by setup-godot cache, but good practice)
-      # The setup-godot action with cache-templates usually handles this.
-      # If builds fail related to templates, you might need manual download steps here.
-      - name: Verify/Install iOS Export Templates
-        run: |
-          echo "Attempting to ensure iOS templates are available..."
-          # Run a dummy export command; setup-godot often ensures templates exist before this
-          # Or Godot might download them if missing and caching failed.
-          godot --version # Simple command to ensure Godot is working
-          # Optional check if needed: godot --headless --export-release "iOS" --quit -v # Run verbose to see template status
-          echo "iOS templates should be ready."
 
       # Step 4: Create a directory to store the build output
       - name: Create build directory
