@@ -26,18 +26,18 @@ jobs:
 
       # Step 2: Set up the Godot Engine environment on the runner
       - name: Set up Godot environment
-        uses: chickensoft-games/setup-godot@v2 # Uses a community action to install Godot
+        # Keep using v2 or update to a newer major version if desired/stable
+        uses: chickensoft-games/setup-godot@v2
         with:
-          # !!! --- VERY IMPORTANT --- !!!
-          # Replace '4.2.1' with the EXACT version of Godot you are using!
-          # Examples: '4.1.3', '3.5.2'
-          # Specify '.mono' if using the C#/.NET version (e.g., '4.2.1.mono')
-          godot-version: '4.4'
+          # --- CORRECTED INPUTS ---
+          # Use 'version' instead of 'godot-version'
+          # !!! MAKE SURE '4.4' IS YOUR EXACT GODOT VERSION !!!
+          # (Add '.mono' if needed, e.g., '4.2.1.mono')
+          version: '4.4' # <-- Replace '4.4' if that's not your exact version!
 
-          # Optional: Cache Godot install and templates for faster subsequent runs
-          cache-godot: true
-          cache-templates: true # This action attempts to cache export templates
-
+          # Use 'cache: true' instead of 'cache-godot: true' and 'cache-templates: true'
+          # This single 'cache' option likely handles caching for both in v2
+          cache: true
       # Step 3: Verify/Install iOS Export Templates (Often handled by setup-godot cache, but good practice)
       # The setup-godot action with cache-templates usually handles this.
       # If builds fail related to templates, you might need manual download steps here.
